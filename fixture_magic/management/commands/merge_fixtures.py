@@ -10,9 +10,9 @@ def write_json(output):
         # check our json import supports sorting keys
         json.dumps([1], sort_keys=True)
     except TypeError:
-        print(json.dumps(output, indent=4))
+        print(json.dumps(output, indent=2))
     else:
-        print(json.dumps(output, sort_keys=True, indent=4))
+        print(json.dumps(output, sort_keys=True, indent=2))
 
 class Command(BaseCommand):
     help = ('Merge a series of fixtures and remove duplicates.')

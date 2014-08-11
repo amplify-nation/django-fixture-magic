@@ -15,4 +15,4 @@ class Command(BaseCommand):
     def handle(self, fixture, *models, **options):
         with open(fixture) as f:
             output = reorder_json(json.loads(f.read()), models)
-            print(json.dumps(output, indent=4))
+            print(json.dumps(output, indent=2))
