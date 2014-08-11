@@ -13,6 +13,6 @@ class Command(BaseCommand):
     args = '[fixture model ...]'
 
     def handle(self, fixture, *models, **options):
-        output = reorder_json(json.loads(file(fixture).read()), models)
-
-        print json.dumps(output, indent=4)
+        with open(fixture) as f:
+            output = reorder_json(json.loads(f.read()), models)
+            print(json.dumps(output, indent=4))

@@ -10,15 +10,15 @@ def write_json(output):
         # check our json import supports sorting keys
         json.dumps([1], sort_keys=True)
     except TypeError:
-        print json.dumps(output, indent=4)
+        print(json.dumps(output, indent=4))
     else:
-        print json.dumps(output, sort_keys=True, indent=4)
+        print(json.dumps(output, sort_keys=True, indent=4))
 
 class Command(BaseCommand):
     help = ('Merge a series of fixtures and remove duplicates.')
     args = '[file ...]'
 
-    def handle(self, *files, **options):
+    def handle(self, *filenames, **options):
         """
         Load a bunch of json files.  Store the pk/model in a seen dictionary.
         Add all the unseen objects into output.
@@ -26,13 +26,13 @@ class Command(BaseCommand):
         output = []
         seen = {}
 
-        for f in files:
-            f = file(f)
-            data = json.loads(f.read())
-            for object in data:
-                key = '%s|%s' % (object['model'], object['pk'])
-                if key not in seen:
-                    seen[key] = 1
-                    output.append(object)
+        for fn in filenames:
+            with open(fn) as f:
+                data = json.loads(f.read())
+                for instance in data:
+                    key = '%s|%s' % (instance['model'], instance['pk'])
+                    if key not in seen:
+                        seen[key] = 1
+                        output.append(instance)
 
         write_json(output)
